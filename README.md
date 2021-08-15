@@ -2,7 +2,7 @@
 
 本仓库用于讨论 kala 语言的设计与功能。
 
-目前本仓库主要用途是记录对该语言的设想~~（卫星），具体啥时候做出来还得看我要摸到啥时候~~。讨论请前往本仓库的 [Issue 页](https://github.com/Glavo/kala-lang/issues)。
+目前本仓库主要用途是记录对该语言的设想<del>（卫星），具体啥时候做出来还得看我要摸到啥时候</del>。讨论请前往本仓库的 [Issue 页](https://github.com/Glavo/kala-lang/issues)。
 
 ## 概述
 
@@ -12,7 +12,7 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
 
 ## 特性
 
-一些特性的草案~~（卫星）~~。
+一些特性的草案<del>（卫星）</del>。待补充，待完善。欢迎通过 [Issue](https://github.com/Glavo/kala-lang/issues) 或者 [Discussions](https://github.com/Glavo/kala-lang/discussions) 讨论。
 
 * 取消常量内联
 
