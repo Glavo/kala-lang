@@ -14,7 +14,7 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
 
 一些特性的草案<del>（卫星）</del>。待补充，待完善。欢迎通过 [Issue](https://github.com/Glavo/kala-lang/issues) 或者 [Discussions](https://github.com/Glavo/kala-lang/discussions) 讨论。
 
-* 取消常量内联
+* 取消跨类常量折叠。
 
 * 扩展交集类型/并集类型：允许交集类型（`A & B`）和并集类型（`A | B`）出现在所有其他类型可以出现的地方（变量声明，函数参数，函数返回值类型，等等）。
 
