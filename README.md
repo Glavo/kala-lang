@@ -210,6 +210,8 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
     
     Type<Seq<String | int>> tpe = TypeMirror.typeOf();
     System.out.println(tpe); // print "kala.collection.Seq<java.lang.String | int>"
+    
+    <T> T[] newArray(int size) where T : Reified -> new T[size];
     ```
 
     
