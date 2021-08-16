@@ -251,7 +251,10 @@ Kala 应该内置对 Lombok 大部分功能的支持。
 * 语法树
 
   ```java
-  Expression<int> expr = '(1 + 2);
+  Expression<int>  addExpr = '(1 + 2);
+  Expression<void> printExpr = '{
+    System.out.println($addExpr);
+  };
   ```
 
 * 增强 Record
