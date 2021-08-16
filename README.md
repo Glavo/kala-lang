@@ -22,6 +22,16 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
 
 * Bottom 类型
 
+  ```java
+  bottom-type exit() {
+      System.exit(0);
+  }
+  
+  int i = a ?? exit();
+  ```
+
+  
+
 * 通用泛型
 
   ```java
@@ -40,7 +50,7 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
         
         /* Or:
         public property String name {
-            field;
+            private field;
             get() -> field;
             set(value) -> field = value;
         }
@@ -52,7 +62,7 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
         */
     
         public readonly property String value {
-            field;
+            private field;
             boolean isInitialized = false;
         
             private String initValue() {
@@ -70,6 +80,8 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
         }
         
         public boolean valueIsInitialized() -> this::value.isInitialized;
+        
+        
     }
     ```
   * 抽象属性
