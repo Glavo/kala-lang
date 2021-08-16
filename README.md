@@ -31,6 +31,7 @@ Kala 应该内置对 Lombok 大部分功能的支持。
   ```java
   class BaseClass {
       Class<this-type> getClass2() -> getClass();
+      
       this-type append(Object obj) {...} 
       /*
           Equivalent to:
