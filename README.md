@@ -349,16 +349,26 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
     ```java
     <T> T f(T t) where T extends CharSequence & Comparable<? super T> -> t;
     // Equivalent to: <T extends CharSequence & Comparable<? super T>> T f(T t) { return t; }
+    
+    <T> T f(T t) 
+        where T extends CharSequence & Comparable<? super T>, 
+              T super StringBuilder,
+              T : Reified {...}
+    /*
+     Equivalent to:
+     <T extends CharSequence & Comparable<? super T> super StringBuilder : Reified>
+     T f(T t) {...}
+     */
     ```
-
+  
   * 通用泛型
-
+  
     ```java
     Seq<int> list = Seq.of(1, 2, 3);
     ```
     
   * ???约束（待定？）
-
+  
     ```java
     trait HasFactory<T> {
         abstract static T create();
@@ -382,9 +392,9 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
     
     C c = createAndDoFoo(); // print "this is C"
     ```
-
+  
   * 泛型具化
-
+  
     ```java
     class TypeMirror {
         static <T> Type<T> getType() where T : Reified;
