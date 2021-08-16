@@ -33,13 +33,13 @@ Kala 应该内置对 Lombok 大部分功能的支持。
       Class<this-type> getClass2() -> getClass();
       this-type append(Object obj) {...} 
       /*
-      Equivalent to:
-      @ReturnThis
-      void append(Object obj){...}
+          Equivalent to:
+              @ReturnThis
+              void append(Object obj){...}
       
-      Or:
-      @ReturnThis
-      BaseClass append(Object obj){...}
+          Or:
+              @ReturnThis
+              BaseClass append(Object obj){...}
        */
   }
   
@@ -66,11 +66,11 @@ Kala 应该内置对 Lombok 大部分功能的支持。
   }
   
   /*
-  Equivalent to:
-  @NoReturn
-  void exit() {
-      System.exit(0);
-  }
+      Equivalent to:
+          @NoReturn
+          void exit() {
+              System.exit(0);
+          }
    */
   
   int fun() {
@@ -89,18 +89,18 @@ Kala 应该内置对 Lombok 大部分功能的支持。
         public property String name = "Glavo";
         
         /* 
-        Or:
-        public property String name {
-            private field = "Glavo";
-            public get() -> field;
-            public set(value) -> field = value;
-        }
+            Equivalent to:
+                public property String name {
+                    private field = "Glavo";
+                    public get() -> field;
+                    public set(value) -> field = value;
+                }
         
-        Equivalent to:
-        private String name = "Glavo";
-        public String getName() -> name;
-        public void setName(String value) -> name = value;
-        */
+            Or:
+                private String name = "Glavo";
+                public String getName() -> name;
+                public void setName(String value) -> name = value;
+         */
     
         public readonly property String value {
             private field;
@@ -189,7 +189,7 @@ Kala 应该内置对 Lombok 大部分功能的支持。
   }
   
   Seq.of(0, 1, 2, 3).sum(); // 6
-  // compile time error: Seq.of("str0", "str1", "str2", "str3").sum();
+  // Seq.of("str0", "str1", "str2", "str3").sum(); // compile time error
   ```
 
 * 嵌套方法
@@ -201,7 +201,7 @@ Kala 应该内置对 Lombok 大部分功能的支持。
       }
       
       static int helper(int a, int b) {
-          // compile time error: System.out.println(arg);
+          // System.out.println(arg); // compile time error:
           return a * 2 + b;
       }
       
@@ -364,9 +364,9 @@ Kala 应该内置对 Lombok 大部分功能的支持。
               T super StringBuilder,
               T : Reified {...}
     /*
-     Equivalent to:
-     <T extends CharSequence & Comparable<? super T> super StringBuilder : Reified>
-     T f(T t) {...}
+        Equivalent to:
+            <T extends CharSequence & Comparable<? super T> super StringBuilder : Reified>
+            T f(T t) {...}
      */
     ```
   
