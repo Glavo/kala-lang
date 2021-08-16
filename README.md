@@ -43,12 +43,6 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
   } // ok
   ```
 
-* 通用泛型
-
-  ```java
-  Seq<int> list = Seq.of(1, 2, 3);
-  ```
-
 * 属性语法
 
   * 允许使用属性访问语法（`o.a`）替代 Getter/Setter 方法（`o.getA()`/`o.setA(...)`）调用。
@@ -92,8 +86,6 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
         }
         
         public boolean valueIsInitialized() -> this::value.isInitialized;
-        
-        
     }
     ```
   * 抽象属性
@@ -174,6 +166,18 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
   }
   ```
 
+* 局部 `import`
+
+  ```java
+  void f() {
+      import static kala.Tuple.*;
+      import static java.lang.System.out;
+      
+      var tuple = of("A", "B");
+      out.println(tuple); // print "(A, B)"
+  }
+  ```
+
 * 宏（待定?）
 
   ```java
@@ -223,15 +227,17 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
   * `return` 表达式
     
     ```java
-    var obj = xxx ? "str" : return null;
+    var obj = a != null ? a : return null;
     ```
     
   * `throw` 表达式
     
     ```java
-    var obj = xxx ? "str" : throw new Exception();
+    var obj = a != null ? a : throw new Exception();
     ```
   
+* 弱化受检异常检测
+
 * 空安全
 
   * 可空类型（`T?`）/不可空类型（`T!`）/平台类型（`T`）
@@ -241,7 +247,7 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
   * 空处理增强
     
     ```java
-    Seq<String>? seq = someFunction();
+    Seq<String>? seq = ...;
     System.out.println(seq?.toString() ?? "seq is null");
     seq ??= Seq.empty();
     ```
@@ -260,9 +266,15 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
   
     ```java
     <T> T f(T t) where T extends CharSequence & Comparable<? super T> -> t;
-    // 等价于 <T extends CharSequence & Comparable<? super T>> T f(T t) { return t; }
+    // Equivalent to: <T extends CharSequence & Comparable<? super T>> T f(T t) { return t; }
     ```
   
+  * 通用泛型
+  
+    ```java
+    Seq<int> list = Seq.of(1, 2, 3);
+    ```
+    
   * ???类型约束（待定？）
   
     ```java
@@ -280,7 +292,7 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
         }
     }
     
-    <T> T createAndDoFoo() where T : HasFactory { 
+    <T : HasFactory> T createAndDoFoo() { // Equivalent to: <T> T createAndDoFoo() where T : HasFactory
         var res = T.create(); 
         res.foo();
         return res;
@@ -316,7 +328,7 @@ Kala 语言应该能将高版本 Java 语言特性编译至低版本平台。对
 ```java
 class Utils {
 #if JAVA_VERSION < 9
-    private static Unsafe unsafe = {
+    private static Unsafe unsafe = with {
         try {
             Field field = Unsafe.class.getDeclaredField("theUnsafe");
             field.setAccessible(true);
@@ -337,8 +349,6 @@ class Utils {
     
 }
 ```
-
-
 
 ### Record
 
