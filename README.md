@@ -1,6 +1,6 @@
 # Kala Lang Design
 
-本仓库用于讨论 kala 语言的设计与功能。
+本仓库用于讨论 kala 语言（TODO）的设计与功能。
 
 目前本仓库主要用途是记录对该语言的设想<del>（卫星），具体啥时候做出来还得看我要摸到啥时候</del>。讨论请前往本仓库的 [Issue 页](https://github.com/Glavo/kala-lang/issues)。
 
@@ -29,8 +29,6 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
   
   int i = a ?? exit();
   ```
-
-  
 
 * 通用泛型
 
