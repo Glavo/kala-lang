@@ -142,11 +142,36 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
 
   ```java 
   interface Seq<covariant E> {
-      int sum(Seq<int> this);
+      default int sum(Seq<int> this) {
+          int res = 0;
+          for(var elem : this) {
+              res += elem;
+          }
+          return res;
+      }
   }
+  
+  Seq.of(0, 1, 2, 3).sum(); // 6
+  // compile time error: Seq.of("str0", "str1", "str2", "str3").sum();
   ```
 
 * 嵌套方法
+
+  ```java
+  void outer(String arg) {
+      void inner() {
+          System.out.println(arg);
+      }
+      
+      static int helper(int a, int b) {
+          // compile time error: System.out.println(arg);
+          return a * 2 + b;
+      }
+      
+      inner();
+      Seq.of(1, 2, 3).reduce(::helper); // 11
+  }
+  ```
 
 * 宏（待定?）
 
