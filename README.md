@@ -202,7 +202,7 @@ Kala 应该内置对 Lombok 大部分功能的支持。
       }
       
       static int helper(int a, int b) {
-          // System.out.println(arg); // compile time error:
+          // System.out.println(arg); // compile time error
           return a * 2 + b;
       }
       
