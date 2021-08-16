@@ -86,6 +86,15 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
         }
         
         public boolean valueIsInitialized() -> this::value.isInitialized;
+        
+        public property String title {
+            private StringProperty field;
+            
+            public get() -> field.get();
+            public set(value) -> field.set(value);
+        }
+        
+        public StringProperty titleProperty() -> this::title.field;
     }
     ```
   * 抽象属性
