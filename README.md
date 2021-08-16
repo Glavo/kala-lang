@@ -28,7 +28,7 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
 
   ```java
   class BaseClass {
-      Class<this-type> getClass2() -> getClass();
+      Class<? extends this-type> getClass2() -> getClass();
       
       this-type append(Object obj) {...} 
       /*
@@ -49,8 +49,8 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
   MyClass myClass = new MyClass();
   BaseClass baseClass = myClass;
   
-  myClass.getClass2();   // type: Class<MyClass>
-  baseClass.getClass2(); // type: Class<BaseClass>
+  myClass.getClass2();   // static type: Class<? extends MyClass>
+  baseClass.getClass2(); // static type: Class<? extends BaseClass>
   
   myClass.append(...)
          .append(...)
