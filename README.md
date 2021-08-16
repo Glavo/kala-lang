@@ -2,7 +2,7 @@
 
 本仓库用于讨论 kala 语言（TODO）的设计与功能。
 
-目前本仓库主要用途是记录对该语言的设想<del>（卫星），具体啥时候做出来还得看我要摸到啥时候</del>。讨论请前往本仓库的 [Issue 页](https://github.com/Glavo/kala-lang/issues)。
+目前本仓库主要用途是记录对该语言的草案<del>（卫星），具体啥时候做出来还得看我要摸到啥时候</del>。讨论请前往本仓库的 [Issue 页](https://github.com/Glavo/kala-lang/issues)。
 
 ## 概述
 
@@ -17,6 +17,8 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
 ## 特性
 
 一些特性的草案<del>（卫星）</del>。待补充，待完善。欢迎通过 [Issue](https://github.com/Glavo/kala-lang/issues) 或者 [Discussions](https://github.com/Glavo/kala-lang/discussions) 讨论。
+
+这些特性的可能的实现方式参见[实现](#实现)一节。
 
 * 取消跨类常量折叠。
 
@@ -416,7 +418,9 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
     String[] arr = newArray(10);
     ```
 
-## 兼容性
+## 实现
+
+### 兼容性
 
 Kala 语言应该能将高版本 Java 语言特性编译至低版本平台。对于纯语法层面的特性（模式匹配，`var` 等），这是一件很轻松的事情，但是对于需要运行时协同的功能（`record` 等），需要寻找其他实现方式实现兼容。
 
@@ -449,9 +453,25 @@ class Utils {
 }
 ```
 
+### this 类型
+
+可用 `this-type` 软关键字（名称暂定）引用的特殊类型。该类型表示该值被使用处的静态类型。
+
+`this-type` 与协变的类型参数遵循类似的规则，不能作为方法参数类型使用。
+
+可以通过 `ReturnThis` 注解（暂定名称）一个方法，该方法返回值类型应为所处上下文中 `this` 的静态类型的超类型（待定：或者 `void`），对于这样的方法，kala 将其返回值类型视为 `this-type`。
+
+翻译方案：`this-type` 应被擦除为上下文中 `this` 的静态类型。`this-type` 作为方法返回值类型时，为方法添加 `ReturnThis` 注解。其他位置使用 `this-type` 的具体翻译方案待定。
+
+### Bottom 类型
+
+
+
 ### Record
 
-Kala 可能会增强 `record` 支持指定其他超类，只有在超类显式或隐式被指定为 `java.lang.Record` 时才会被真正视为 Java 中的 `record` 进行翻译。
+增强 `record` ，允许支持指定其他超类。
+
+只有在超类显式或隐式被指定为 `java.lang.Record` 时才会被真正视为 Java 中的 `record` 进行翻译，完全遵循 [JEP 395](https://openjdk.java.net/jeps/395) 中的限制。
 
 （多目标翻译：在未显式指定超类时，为高于 Java 16 的目标生成超类为 `java.lang.Record` 版本，为低于 Java 16 的目标生成超类为 `java.lang.Object` 的版本）
 
@@ -465,7 +485,7 @@ Kala 可能会增强 `record` 支持指定其他超类，只有在超类显式�
 
 对于 Primitive Class 在低版本平台上的翻译，应该为其生成工厂方法（`<new>` 方法），将对其 `new` 调用翻译为工厂方法调用而非构造器调用。
 
-但是 `Q` 类型的兼容方案未知。
+对 `Q` 类型的兼容方案需要进一步完善。
 
 ### 通用泛型
 
