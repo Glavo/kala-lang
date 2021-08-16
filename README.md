@@ -10,7 +10,7 @@ Kala 语言目标是在完全兼容 Java 语言的基础上，提供更强大易
 
 Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上扩展，并允许将编译目标设定为更低版本的 JVM 平台（譬如 Java 8），同时为主目标为低版本平台的程序适配高版本特性（譬如 Primitive Class）提供帮助。
 
-纯 Java 类库通过使用特殊注解也应该能够提供对 Kala 更友好的 API。
+应该允许纯 Java 类库通过使用特殊注解提供对 Kala 友好的 API。
 
 ## 特性
 
@@ -37,7 +37,7 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
       Or:
       
       @ReturnThis
-      MyClass append(Object obj){...}
+      BaseClass append(Object obj){...}
        */
   }
   
@@ -219,6 +219,24 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
       
       var tuple = of("A", "B");
       out.println(tuple); // print "(A, B)"
+  }
+  ```
+
+* `TargetName`
+
+  ```java
+  interface Seq<covariant E> {
+      @TargetName("sumOfInt")
+      default int sum(Seq<int> this) {...}
+      
+      @TargetName("sumOfLong")
+      default long sum(Seq<long> this) {...}
+      
+      @TargetName("sumOfFloat")
+      default float sum(Seq<float> this) {...}
+      
+      @TargetName("sumOfDouble")
+      default double sum(Seq<double> this) {...}
   }
   ```
 
