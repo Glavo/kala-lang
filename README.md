@@ -244,6 +244,12 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
   Expression<void> funImpl(Expression<int> argExpr) {...}
   ```
 
+* 语法树
+
+  ```java
+  Expression<int> expr = '(1 + 2);
+  ```
+
 * 增强 Record
 
   * 允许继承自其他父类
