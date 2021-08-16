@@ -236,7 +236,25 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
     var obj = a != null ? a : throw new Exception();
     ```
   
+* 字符串插值
+
+  ```java
+  public String toString() -> $"MyClass{name=$name, value=$value}";
+  ```
+  
 * 弱化受检异常检测
+
+  ```java
+  void fun() {
+      try {
+          var a = 1 + 2;
+      } catch(IOException ex) {
+          // ok
+      }
+      
+      throw new IOException(); // ok
+  }
+  ```
 
 * 空安全
 
@@ -261,22 +279,22 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
         static <T> Seq<T> from(Seq<T> seq) {...} // Equivalent to: static <T> Seq<T> from(Seq<? extends T> seq) {...}
     }
     ```
-  
+
   * 泛型约束
-  
+
     ```java
     <T> T f(T t) where T extends CharSequence & Comparable<? super T> -> t;
     // Equivalent to: <T extends CharSequence & Comparable<? super T>> T f(T t) { return t; }
     ```
-  
+
   * 通用泛型
-  
+
     ```java
     Seq<int> list = Seq.of(1, 2, 3);
     ```
     
   * ???类型约束（待定？）
-  
+
     ```java
     trait HasFactory<T> {
         abstract static T create();
@@ -300,11 +318,9 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
     
     C c = createAndDoFoo(); // print "this is C"
     ```
-  
-    
-  
-  * 泛型具化（待定）
-  
+
+  * 泛型具化
+
     ```java
     class TypeMirror {
         static <T> Type<T> getType() where T : Reified;
@@ -313,9 +329,10 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
     Type<Seq<String | int>> tpe = TypeMirror.getType();
     System.out.println(tpe); // print "kala.collection.Seq<java.lang.String | int>"
     
-    <T> T[] newArray(int size) where T : Reified -> new T[size];
+    <T : Reified> T[] newArray(int size) -> new T[size];
+    
+    String[] arr = newArray(10);
     ```
-  
 
 ## 兼容性
 
