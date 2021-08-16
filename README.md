@@ -134,11 +134,26 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
   public static void printMe(String this) {
       System.out.println(this);
   }
+  
+  "Hello world!".printMe(); // print "Hello world!"
+  ```
+
+* 成员方法自类型限定
+
+  ```java 
+  interface Seq<covariant E> {
+      int sum(Seq<int> this);
+  }
   ```
 
 * 嵌套方法
 
-* 宏（待定）（可能参考 Scala 2/3）
+* 宏（待定?）
+
+  ```java
+  inline void fun(int arg) = macro funImpl;
+  Expression<void> funImpl(Expression<int> argExpr) {...}
+  ```
 
 * 增强 Record
 
@@ -207,15 +222,23 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
 
 * 泛型增强
 
-  * 泛型约束
+  * 声明处形变
 
+    ```java
+    interface Seq<covariant E> {
+        static <T> Seq<T> from(Seq<T> seq) {...} // Equivalent to: static <T> Seq<T> from(Seq<? extends T> seq) {...}
+    }
+    ```
+  
+  * 泛型约束
+  
     ```java
     <T> T f(T t) where T extends CharSequence & Comparable<? super T> -> t;
     // 等价于 <T extends CharSequence & Comparable<? super T>> T f(T t) { return t; }
     ```
-
+  
   * ???类型约束（待定？）
-
+  
     ```java
     trait HasFactory<T> {
         abstract static T create();
@@ -239,11 +262,11 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
     
     C c = createAndDoFoo(); // print "this is C"
     ```
-
+  
     
-
+  
   * 泛型具化（待定）
-
+  
     ```java
     class TypeMirror {
         static <T> Type<T> getType() where T : Reified;
@@ -254,7 +277,7 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
     
     <T> T[] newArray(int size) where T : Reified -> new T[size];
     ```
-
+  
 
 ## 兼容性
 
