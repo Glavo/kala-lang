@@ -30,12 +30,10 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
       this-type append(Object obj) {...} 
       /*
       Equivalent to:
-  
       @ReturnThis
       void append(Object obj){...}
       
       Or:
-      
       @ReturnThis
       BaseClass append(Object obj){...}
        */
@@ -66,7 +64,6 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
   
   /*
   Equivalent to:
-  
   @NoReturn
   void exit() {
       System.exit(0);
@@ -77,7 +74,7 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
       exit();
   } // ok
   ```
-
+  
 * 属性语法
 
   * 允许使用属性访问语法（`o.a`）替代 Getter/Setter 方法（`o.getA()`/`o.setA(...)`）调用。
