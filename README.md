@@ -26,7 +26,7 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
 
   ```java
   class BaseClass {
-      Class<type-type> myGetClass() -> getClass();
+      Class<this-type> myGetClass() -> getClass();
       this-type append(Object obj) {...} 
       /*
       Equivalent to:
