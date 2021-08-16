@@ -30,7 +30,7 @@ Kala 应该内置对 Lombok 大部分功能的支持。
 
   ```java
   class BaseClass {
-      Class<this-type> myGetClass() -> getClass();
+      Class<this-type> getClass2() -> getClass();
       this-type append(Object obj) {...} 
       /*
       Equivalent to:
@@ -44,19 +44,18 @@ Kala 应该内置对 Lombok 大部分功能的支持。
   }
   
   class MyClass extends BaseClass {
-      this-type myMethod() {...}
+      void myMethod() {...}
   }
   
   MyClass myClass = new MyClass();
   BaseClass baseClass = myClass;
   
-  myClass.myGetClass();   // type: Class<MyClass>
-  baseClass.myGetClass(); // type: Class<BaseClass>
+  myClass.getClass2();   // type: Class<MyClass>
+  baseClass.getClass2(); // type: Class<BaseClass>
   
-  myClass
-      .append(...)
-      .append(...)
-      .myMethod(); //ok
+  myClass.append(...)
+         .append(...)
+         .myMethod();    //ok
   ```
 
 * Bottom 类型
@@ -87,18 +86,18 @@ Kala 应该内置对 Lombok 大部分功能的支持。
 
     ```java
     class Test {
-        public property String name;
+        public property String name = "Glavo";
         
         /* 
         Or:
         public property String name {
-            private field;
+            private field = "Glavo";
             public get() -> field;
             public set(value) -> field = value;
         }
         
         Equivalent to:
-        private String name;
+        private String name = "Glavo";
         public String getName() -> name;
         public void setName(String value) -> name = value;
         */
