@@ -22,6 +22,12 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
 
 * Bottom 类型
 
+* 通用泛型
+
+  ```java
+  Seq<int> list = Seq.of(1, 2, 3);
+  ```
+
 * 属性语法
 
   * 允许使用属性访问语法（`o.a`）替代 Getter/Setter 方法（`o.getA()`/`o.setA(...)`）调用。
@@ -214,4 +220,59 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
     <T> T[] newArray(int size) where T : Reified -> new T[size];
     ```
 
+
+## 兼容性
+
+Kala 语言应该能将高版本 Java 语言特性编译至低版本平台。对于纯语法层面的特性（模式匹配，`var` 等），这是一件很轻松的事情，但是对于需要运行时协同的功能（`record` 等），需要寻找其他实现方式实现兼容。
+
+另外有一个值得考虑的选择（后文将该选择简称为“多目标翻译”）：支持类似 `kalac --release 8 -d out/ --release 16 -d out-java16 ...`  的方式指定多个输出路径，为不同 target 目标生成不同的类文件，最后装入一个 Multi-Release JAR 文件中。
+
+若确定将要支持多目标翻译，可以考虑在此基础上实现多目标宏，以此简化为不同 Java 版本提供不同实现的方式：
+
+```java
+class Utils {
+#if JAVA_VERSION < 9
+    private static Unsafe unsafe = {
+        try {
+            Field field = Unsafe.class.getDeclaredField("theUnsafe");
+            field.setAccessible(true);
+            (Unsafe) field.get(null);
+        } catch (Exception e) {
+            null;
+        }
+    };
     
+    public static void fullFence() {
+        unsafe.fullFence();
+    }
+#else 
+    public static void fullFence() {
+        VarHandle.fullFence();
+    }
+#endif
+    
+}
+```
+
+
+
+### Record
+
+Kala 可能会增强 `record` 支持指定其他超类，只有在超类显式或隐式被指定为 `java.lang.Record` 时才会被真正视为 Java 中的 `record` 进行翻译。
+
+（多目标翻译：在未显式指定超类时，为高于 Java 16 的目标生成超类为 `java.lang.Record` 版本，为低于 Java 16 的目标生成超类为 `java.lang.Object` 的版本）
+
+### Sealed Class
+
+（待确认）应该可以为任意版本目标生成 `PermittedSubclasses` 属性，低版本平台会自动忽略该项，但不确认 Java 15/16 是否必须在运行时开启 `--enable-preview` 选项。
+
+### Primitive Class
+
+必须保证实现多目标翻译才能正确应对 Primitive Class。
+
+对于 Primitive Class 在低版本平台上的翻译，应该为其生成工厂方法（`<new>` 方法），将对其 `new` 调用翻译为工厂方法调用而非构造器调用，以此保证二进制兼容高版本 Java。
+
+### 通用泛型
+
+使用 Universal Generics 的 [JEP 草案](https://openjdk.java.net/jeps/8261529)中所描述的方式翻译。
+
