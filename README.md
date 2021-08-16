@@ -23,11 +23,19 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
 * Bottom 类型
 
   ```java
-  bottom-type exit() {
+  bottom-type exitWith0() {
       System.exit(0);
   }
   
-  int i = a ?? exit();
+  @NoReturn
+  void exitWith1() {
+      System.exit(0);
+  }
+  
+  
+  int fun() {
+      exitWith0();
+  } // ok
   ```
 
 * 通用泛型
