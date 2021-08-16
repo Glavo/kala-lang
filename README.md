@@ -36,18 +36,23 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
 
     ```java
     class Test {
-        public String name { get; set; }
+        public property String name;
         
         /* Or:
-        public String name {
-            private String field;
+        public property String name {
+            field;
             get() -> field;
             set(value) -> field = value;
         }
         */
+        /* Equivalent to:
+        private String name;
+        public String getName() -> name;
+        public void setName(String value) -> name = value;
+        */
     
-        public final String value {
-            private String field;
+        public readonly property String value {
+            field;
             boolean isInitialized = false;
         
             private String initValue() {
@@ -56,11 +61,11 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
             }
         
             get() {
-                return if(isInitialized) field else {
+                if(!isInitialized) {
                     field = initValue();
                     isInitialized = true;
-                    field;
                 }
+                return field;
             }
         }
         
@@ -71,14 +76,21 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
     
     ```java
     interface I {
-        String value {
-            get();
-        };
+        readonly property String name;
+        
+        StringProperty valueProperty();
+        property String value {
+            default get() -> valueProperty().get();
+            default set(value) -> valueProperty().set(value);
+        }
     }
     
     abstract class C {
-        abstract String value {
-            get();
+        abstract readonly property String name;
+        
+        abstract property String value {
+            abstract get();
+            final set(value) -> throw new UnsupportedOperationException();
         }
     }
     ```
@@ -86,7 +98,7 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
 * 单行方法
 
   ```java
-  public String toString() -> "[" + this.name + "]";
+  public String toString() -> $"[${this.name}]";
   
   public static String[] newStringArray(int size) = String[]::new;
   
@@ -179,10 +191,10 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
     // 等价于 <T extends CharSequence & Comparable<? super T>> T f(T t) { return t; }
     ```
 
-  * 鸭子类型约束（待定？）
+  * ???类型约束（待定？）
 
     ```java
-    some-keyword HasFactory<T> {
+    trait HasFactory<T> {
         abstract static T create();
         
         abstract void foo();
@@ -202,7 +214,7 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
         return res;
     }
     
-    C c = create(); // print "this is C"
+    C c = createAndDoFoo(); // print "this is C"
     ```
 
     
@@ -211,10 +223,10 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
 
     ```java
     class TypeMirror {
-        static <T> Type<T> typeOf() where T : Reified;
+        static <T> Type<T> getType() where T : Reified;
     }
     
-    Type<Seq<String | int>> tpe = TypeMirror.typeOf();
+    Type<Seq<String | int>> tpe = TypeMirror.getType();
     System.out.println(tpe); // print "kala.collection.Seq<java.lang.String | int>"
     
     <T> T[] newArray(int size) where T : Reified -> new T[size];
