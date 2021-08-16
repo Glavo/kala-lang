@@ -20,7 +20,42 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
 
 * 扩展交集类型/并集类型：允许交集类型（`A & B`）和并集类型（`A | B`）出现在所有其他类型可以出现的地方（变量声明，函数参数，函数返回值类型，等等）。
 
-* 将 `void` 视为类型：允许 `void` 作为类型使用。
+* 将 `void` 视为类型（待定）：允许 `void` 作为类型使用。
+
+* `this` 类型
+
+  ```java
+  class BaseClass {
+      Class<type-type> myGetClass() -> getClass();
+      this-type append(Object obj) {...} 
+      /*
+      Equivalent to:
+  
+      @ReturnThis
+      void append(Object obj){...}
+      
+      Or:
+      
+      @ReturnThis
+      MyClass append(Object obj){...}
+       */
+  }
+  
+  class MyClass extends BaseClass {
+      this-type myMethod() {...}
+  }
+  
+  MyClass myClass = new MyClass();
+  BaseClass baseClass = myClass;
+  
+  myClass.myGetClass();   // type: Class<MyClass>
+  baseClass.myGetClass(); // type: Class<BaseClass>
+  
+  myClass
+      .append(...)
+      .append(...)
+      .myMethod(); //ok
+  ```
 
 * Bottom 类型
 
