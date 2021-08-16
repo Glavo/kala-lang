@@ -54,14 +54,15 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
     class Test {
         public property String name;
         
-        /* Or:
+        /* 
+        Or:
         public property String name {
             private field;
-            get() -> field;
-            set(value) -> field = value;
+            public get() -> field;
+            public set(value) -> field = value;
         }
-        */
-        /* Equivalent to:
+        
+        Equivalent to:
         private String name;
         public String getName() -> name;
         public void setName(String value) -> name = value;
@@ -69,14 +70,14 @@ Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上
     
         public readonly property String value {
             private field;
-            boolean isInitialized = false;
+            private boolean isInitialized = false;
         
             private String initValue() {
                 // ...
                 return someString;
             }
         
-            get() {
+            public get() {
                 if(!isInitialized) {
                     field = initValue();
                     isInitialized = true;
