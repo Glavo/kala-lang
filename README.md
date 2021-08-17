@@ -244,7 +244,7 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
   Expression<void> funImpl(Expression<int> argExpr) {...}
   ```
 
-* 语法树
+* 语法树（待定?）
 
   ```java
   Expression<int>  addExpr = '(1 + 2);
