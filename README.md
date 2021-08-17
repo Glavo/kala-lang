@@ -536,7 +536,7 @@ kala 属性的基础语法：
 
 增强 `record` ，允许支持指定其他超类。
 
-只有在超类显式或隐式被指定为 `java.lang.Record` 时才会被真正视为 Java 中的 `record` 进行翻译，完全遵循 [JEP 395](https://openjdk.java.net/jeps/395) 中的限制。
+在超类显式或隐式被指定为 `java.lang.Record` 时才会被真正视为 Java 中的 `record` 进行翻译，完全遵循 [JEP 395](https://openjdk.java.net/jeps/395) 中的限制。
 
 当使用其他类作为超类时，不为类生成 `Record_attribute`。
 
@@ -550,11 +550,46 @@ kala 属性的基础语法：
 
 必须保证实现多目标翻译才能正确应对 Primitive Class。
 
-对于 Primitive Class 在低版本平台上的翻译，应该为其生成工厂方法（`<new>` 方法），将对其 `new` 调用翻译为工厂方法调用而非构造器调用。
+对于 Primitive Class 在低版本平台上的翻译，应该为其生成工厂方法（`<new>` 方法），将对该类型的 `new` 调用翻译为工厂方法调用而非构造器调用。
 
-对 `Q` 类型的兼容方案需要进一步完善。
+TODO：对 `Q` 类型的兼容方案。
 
 ### 通用泛型
 
 使用 Universal Generics 的 [JEP 草案](https://openjdk.java.net/jeps/8261529)中所描述的方式翻译。
 
+### 空安全
+
+对于引用类型，`T?` 和 `T!` 与 `T` 的擦除一致，由编译器进行流敏感分析验证可空性。
+
+对于原始类型，`T?` 应该被擦除为其包装器类型。
+
+`T` 与 `T? ` ，`T` 与 `T! `，两组类型之间允许非受检的转化。。
+
+允许以下不同的参数化类型之间的互相转化：
+
+* 将参数化类型的类型参数由平台类型修改为对应的可空类型或非空类型，反之亦然。
+
+  ```java
+  Seq<String>  seq  = ...;
+  Seq<String!> seq1 = seq; // ok
+  Seq<String?> seq2 = seq; // ok
+  ```
+
+* 将参数化类型的类型通配符边界由平台类型修改为对应的可空类型或非空类型，反之亦然。
+
+  ```java
+  Seq<? extends String>  seq  = ...;
+  Seq<? extends String!> seq1 = seq; // ok
+  Seq<? extends String?> seq2 = seq; // ok
+  ```
+
+* 递归地将以上转化规则应用于参数化类型的所有类型参数或通配符边界。
+
+  ```java
+  Seq<Map<String, ? extends CharSequence>>   seq  = ???;
+  Seq<Map<String?, ? extends CharSequence?>> seq1 = ???;
+  Seq<Map<String!, ? extends CharSequence!>> seq2 = ???;
+  ```
+
+以上规则也适用于方法覆盖。
