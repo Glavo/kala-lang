@@ -536,6 +536,8 @@ kala 属性的基础语法：
 
 只有在超类显式或隐式被指定为 `java.lang.Record` 时才会被真正视为 Java 中的 `record` 进行翻译，完全遵循 [JEP 395](https://openjdk.java.net/jeps/395) 中的限制。
 
+当使用其他类作为超类时，不为类生成 `Record_attribute`。
+
 （多目标翻译：在未显式指定超类时，为高于 Java 16 的目标生成超类为 `java.lang.Record` 版本，为低于 Java 16 的目标生成超类为 `java.lang.Object` 的版本）
 
 ### Sealed Class
