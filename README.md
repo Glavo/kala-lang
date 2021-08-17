@@ -298,11 +298,15 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
     
   * `return` 表达式
     
+    Java 中的 `return` 语句被视为类型为 `bottom-type` 的表达式。
+    
     ```java
     var obj = a != null ? a : return null;
     ```
     
   * `throw` 表达式
+    
+    Java 中的 `throw` 语句被视为类型为 `bottom-type` 的表达式。
     
     ```java
     var obj = a != null ? a : throw new Exception();
