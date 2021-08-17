@@ -36,10 +36,6 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
       /*
           Equivalent to:
               @ReturnThis
-              void append(Object obj){...}
-      
-          Or:
-              @ReturnThis
               BaseClass append(Object obj){...}
        */
   }
@@ -58,7 +54,7 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
          .append(...)
          .myMethod();    //ok
   ```
-
+  
 * Bottom 类型
 
   ```java
@@ -473,12 +469,14 @@ Bottom 类型是所有类型的子类型，可用 `bottom-type`（暂定名称�
 
 被 `NoReturn` 所注解的方法返回值类型被视为 `bottom-type`。
 
-作为方法返回值类型时，该方法会被翻译为被 `NoReturn` 注解的方法，`bottom-type` 会被擦除为：
+作为方法返回值类型时，该方法会被翻译为被 `NoReturn` 注解的方法：
 
 * 默认情况下，`bottom-type` 被擦除为 `void`。
-* 当该方法覆盖或实现其他方法时，`bottom-type` 被擦除为被覆盖方法的返回值类型。
+* 当该方法覆盖或实现其他方法时：
+  * 选择一：`bottom-type` 被擦除为被覆盖方法的返回值类型。
+  * 选择二：`bottom-type` 被擦除为 `void`，同时合成与超类或超接口中函数签名相同的桥方法。
 
-（fixme：该翻译方案下，向超类/超接口添加方法或变更方法签名可能导致链接错误或无法正常覆盖，需要重新编译）
+（fixme：该翻译方案下，向超类/超接口添加方法或变更方法签名可能导致链接错误或无法正常覆盖，需要重新编译。）
 
 其他用途下翻译方案未定。
 
