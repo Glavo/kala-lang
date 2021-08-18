@@ -79,8 +79,32 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
 
   * 将有 Java Bean 风格的 Getter/Setter 方法的 Java 属性视为 Kala 属性。
 
+    ```java
+    class C {
+        static String getField1() -> ...;
+        static void setField1(String value) -> ...;
+        
+        String getField2() -> ...;
+        
+        boolean isField3() -> ...;
+        void setField3(boolean value) -> ...;
+    }
+    
+    C.field1;
+    C.field1 = "str";
+    
+    var c = new C();
+    c.field2;
+    // c.field2 = "str"; // error
+    
+    c.field3;
+    c.field3 = false;
+    ```
+  
+    
+  
   * 简化声明属性的语法。
-
+  
     ```java
     class Test {
         public property String name = "Glavo";
@@ -129,6 +153,7 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
         public StringProperty titleProperty() -> this::title.field;
     }
     ```
+    
   * 抽象属性
     
     ```java
