@@ -6,7 +6,7 @@
 
 ## 概述
 
-Kala 语言目标是在完全兼容 Java 语言的基础上，提供更强大易用的语言功能，并且无需引入额外的运行时依赖。
+Kala 语言目标是在完全兼容 Java 语言的基础上，提供更强大易用的语言功能，并且绝大部分功能无需引入额外的运行时依赖。
 
 Kala 语言应该能够完全兼容最新版本 Java 的语法，在此基础上扩展，并允许将编译目标设定为更低版本的 JVM 平台（譬如 Java 8），同时为主目标为低版本平台的程序适配高版本特性（譬如 Primitive Class）提供帮助。
 
@@ -380,7 +380,7 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
   * ???约束（待定？）
   
     ```java
-    trait HasFactory<T> {
+    trait TraitA<T> {
         abstract static T create();
         
         abstract void foo();
@@ -394,7 +394,7 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
         }
     }
     
-    <T : HasFactory> T createAndDoFoo() { // Equivalent to: <T> T createAndDoFoo() where T : HasFactory
+    <T : TraitA> T createAndDoFoo() { // Equivalent to: <T> T createAndDoFoo() where T : TraitA
         var res = T.create(); 
         res.foo();
         return res;
