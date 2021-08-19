@@ -596,7 +596,7 @@ TODO：对 `Q` 类型的兼容方案。
 * 将参数化类型的类型参数由平台类型修改为对应的可空类型或非空类型，反之亦然。
 
   ```java
-  Seq<String>  seq  = ...;
+  Seq<String > seq  = ...;
   Seq<String!> seq1 = seq; // ok
   Seq<String?> seq2 = seq; // ok
   ```
@@ -604,7 +604,7 @@ TODO：对 `Q` 类型的兼容方案。
 * 将参数化类型的类型通配符边界由平台类型修改为对应的可空类型或非空类型，反之亦然。
 
   ```java
-  Seq<? extends String>  seq  = ...;
+  Seq<? extends String > seq  = ...;
   Seq<? extends String!> seq1 = seq; // ok
   Seq<? extends String?> seq2 = seq; // ok
   ```
