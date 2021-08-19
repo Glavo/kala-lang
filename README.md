@@ -613,8 +613,8 @@ TODO：对 `Q` 类型的兼容方案。
 
   ```java
   Seq<Map<String, ? extends CharSequence>>   seq  = ???;
-  Seq<Map<String?, ? extends CharSequence?>> seq1 = ???;
-  Seq<Map<String!, ? extends CharSequence!>> seq2 = ???;
+  Seq<Map<String?, ? extends CharSequence?>> seq1 = seq;
+  Seq<Map<String!, ? extends CharSequence!>> seq2 = seq;
   ```
 
 以上规则也适用于方法覆盖。
