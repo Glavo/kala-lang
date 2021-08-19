@@ -612,7 +612,7 @@ TODO：对 `Q` 类型的兼容方案。
 * 递归地将以上转化规则应用于参数化类型的所有类型参数或通配符边界。
 
   ```java
-  Seq<Map<String, ? extends CharSequence>>   seq  = ???;
+  Seq<Map<String,  ? extends CharSequence >> seq  = ???;
   Seq<Map<String?, ? extends CharSequence?>> seq1 = seq;
   Seq<Map<String!, ? extends CharSequence!>> seq2 = seq;
   ```
