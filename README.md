@@ -263,10 +263,7 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
 * 嵌套类分离声明（？）
 
   ```java
-  class Seq<covariant E> {
-      // ...
-  }
-  
+  class Seq<covariant E> { ... }
   static class Seq.Iterator<covariant E> { ... }
   ```
 
