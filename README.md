@@ -101,8 +101,6 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
     c.field3 = false;
     ```
   
-    
-  
   * 简化声明属性的语法。
   
     ```java
@@ -260,6 +258,16 @@ Kala 编译器工具链应该实现 Java 注解处理器 API，兼容用户已�
       @TargetName("sumOfDouble")
       default double sum(Seq<double> this) {...}
   }
+  ```
+
+* 嵌套类分离声明（？）
+
+  ```java
+  class Seq<covariant E> {
+      // ...
+  }
+  
+  static class Seq.Iterator<covariant E> { ... }
   ```
 
 * 宏（待定?）
